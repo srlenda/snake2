@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Banco: PostgreSQL (Neon) — compatível com Vercel serverless.
+// - url:       connection string poolada (porta 6543) para queries em runtime
+// - directUrl: connection string direta (porta 5432) para migrações
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Score {
+  id         String   @id @default(cuid())
+  playerName String
+  score      Int
+  mode       String // "classic" | "classic_wrap" | "special" | "time" | "maze"
+  players    Int // 1 | 2
+  createdAt  DateTime @default(now())
+
+  @@index([mode, players, score(sort: Desc)])
+}
