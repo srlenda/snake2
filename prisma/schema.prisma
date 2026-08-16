@@ -1,18 +1,17 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Banco: PostgreSQL (Neon) — compatível com Vercel serverless.
-// - url:       connection string poolada (porta 6543) para queries em runtime
-// - directUrl: connection string direta (porta 5432) para migrações
+// Banco: SQLite via Turso (libSQL) — compatível com Vercel serverless.
+// Usa o driver adapter @prisma/adapter-libsql para conectar ao Turso.
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Score {
